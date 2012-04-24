@@ -119,3 +119,37 @@ note:
 
   you can  use your  apiVar to access the api functionallity see (http://odyniec.net/projects/imgareaselect/usage.html#api-methods)
 
+
+  server end  exmaple :
+   public function actionIconCrop(){
+           $request = Yii::app()->getRequest();
+           if($request->getIsAjaxRequest() && $request->getIsPostRequest()){
+               $left = $request->getParam('left');
+               $top = $request->getParam('top');
+               $width = $request->getParam('width');
+               $height = $request->getParam('height');
+   
+               $imgWidth = $request->getParam('imgWidth');
+               $imgHeigth = $request->getParam('imgHeigth');
+               $imgWidth = str_replace('px','',$imgWidth);
+               $imgHeigth = str_replace('px','',$imgHeigth);
+   
+   
+                $imgSrc = $request->getParam('imgSrc');
+                $imagePath = someCaculate($imgSrc);
+                
+               if(is_file($imagePath)){
+                   $ratio =    ImageUtil::getWidth($imagePath) / $imgWidth;
+                   WideImage::loadFromFile($imagePath)->crop($left * $ratio,$top * $ratio ,$width * $ratio,$height * $ratio)->saveToFile(
+                      'somePath.jpg')
+                   );
+               }
+                  //...  if you like  you can pass the croped image src to browser
+           }else{
+               throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+           }
+       }
+
+       you see i  use the WideImage to crop the image  ,  you pass the image width and height from client side use jquery ,
+       in server side we should calculate the ratio first ,  then crop it  with the $ratio * $xxx ;
+
