@@ -79,7 +79,7 @@ class JImgAreaSelect extends CWidget
      * specify a container for preview the selection area
      * this is for funny  carefully use it  (:
      */
-    public $previewContainer ;
+    public $previewContainer;
 
     /**
      * @return JImgAreaSelect
@@ -99,7 +99,7 @@ class JImgAreaSelect extends CWidget
 
 
     /**
-     * @throws CException
+     * @return mixed
      */
     public function init()
     {
@@ -136,9 +136,9 @@ class JImgAreaSelect extends CWidget
             if (is_array($this->options)) {
                 $this->options['instance'] = true;
             } else {
-                $firstCurlyBracePos = strpos($this->options,'{');
+                $firstCurlyBracePos = strpos($this->options, '{');
                 // $this->options = str_replace('{', '{ instance:true , ', $this->options);
-                $this->options = substr_replace($this->options, ' instance:true , ', $firstCurlyBracePos+1 ,0);
+                $this->options = substr_replace($this->options, ' instance:true , ', $firstCurlyBracePos + 1, 0);
                 // die( "why".$this->options);
             }
         }
@@ -154,6 +154,10 @@ JS_INIT;
 
     }
 
+    /**
+     * @return JImgAreaSelect
+     * @throws CException
+     */
     public function handleSelectionPreview()
     {
         if (isset($this->previewContainer)) {
@@ -230,7 +234,7 @@ JS_PREVIEW;
                 ->registerScript(__CLASS__ . '#preview_' . $this->getId(), $jsPreview, CClientScript::POS_READY);
 
         }
-
+        return $this;
     }
 
     /**
