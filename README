@@ -1,0 +1,115 @@
+overview :
+this widget is just a wrapper of the original imgAreaSelect jquery plugin
+so for more detail please visite the url(http://odyniec.net/projects/imgareaselect/)
+
+imgAreaSelect is a jQuery plugin for selecting a rectangular area of an image.
+ It allows web developers to easily implement image cropping functionality,
+ as well as other user interface features, such as photo notes (like those on Flickr).
+
+install :
+
+To use the extension just unzip all of its contents to the /protected/extension or some other folders (just use the right pathAlias to refer it).
+
+
+usage example  :  in your view file use it like other standar widgets
+more example you can find here (http://odyniec.net/projects/imgareaselect/examples-callback.html)
+
+<?php
+/**
+ * User: yiqing
+ * Date: 11-12-3
+ * for more usage examples please see here :
+ * http://odyniec.net/projects/imgareaselect/examples-callback.html
+ */
+
+$this->widget(
+    'ext.imgAreaSelect.JImgAreaSelect',
+    array(
+        'selector' => 'img#photo',
+        'apiVarName' => 'ias',
+        // 'selectionAreaBorderAnimated'=>true,
+        'options' => "js:
+        {
+            handles: true,
+            onSelectEnd: function (img, selection) {
+               alert('width: ' + selection.width + '; height: ' + selection.height+
+               ' left:'+selection.x1 + ' top:'+selection.y1
+               );
+             }
+        }
+        ",
+    )
+);
+?>
+
+<div id="sample1">
+    <img id="photo" src="http://a1.att.hudong.com/05/15/300000876508131892158813910_950.jpg" alt="">
+</div>
+
+<div id="sample2">
+    <script type="text/javascript">
+
+
+        function preview(img, selection) {
+            var scaleX = 100 / (selection.width || 1);
+            var scaleY = 100 / (selection.height || 1);
+
+            $(img).next().find("img").css({
+                width:Math.round(scaleX * 400) + 'px',
+                height:Math.round(scaleY * 300) + 'px',
+                marginLeft:'-' + Math.round(scaleX * selection.x1) + 'px',
+                marginTop:'-' + Math.round(scaleY * selection.y1) + 'px'
+            });
+        }
+        $(document).ready(function () {
+            var $img = $("#test2");
+            $('<div><img src="" style="position: relative;" /><div>')
+                .css({
+                    float:'right',
+                    position:'relative',
+                    overflow:'hidden',
+                    width:'100px',
+                    height:'100px',
+                    margin:'10px'
+                }).insertAfter($img)
+                .find('img').attr("src", $img.attr("src"));
+
+            $img.imgAreaSelect({ aspectRatio:'1:1', onSelectChange:preview });
+        });
+
+    </script>
+
+    <div id="sampleContainer" style="">
+        <img src="http://www.szfootball.cn/bbs/attachments/month_0805/20080527_af2c29c95f360edd66efyh2TkOi9XVO0.jpg"
+             alt="" id="test2"/>
+    </div>
+</div>
+
+<div id="test3">
+    <?php
+    $this->widget(
+        'ext.imgAreaSelect.JImgAreaSelect',
+        array(
+            'selector' => '#test3 img',
+            'previewContainer'=>'#test3preview',
+            'options' => array(
+                'aspectRatio' => '4:3',
+                'handles' => true
+            ),
+        )
+    );
+    ?>
+
+    <img src="http://img12.3lian.com/gaoqing02/02/57/59.jpg" alt="">
+
+    <div id="test3preview" style="float:right;
+                    position:relative;
+                    overflow:hidden;
+                    width:100px;
+                    height:100px;
+                    margin:10px">
+
+    </div>
+
+</div>
+
