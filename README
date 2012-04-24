@@ -113,3 +113,9 @@ $this->widget(
 
 </div>
 
+
+
+note:
+
+  you can  use your  apiVar to access the api functionallity see (http://odyniec.net/projects/imgareaselect/usage.html#api-methods)
+
